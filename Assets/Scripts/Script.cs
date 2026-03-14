@@ -1,16 +1,20 @@
 using UnityEngine;
 
-public class Script : MonoBehaviour
+namespace Smoove
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start() // hello
+    /// <summary>
+    /// Placeholder script. Rename this file and class to match its purpose,
+    /// then move it to the appropriate folder under Assets/_Project/Scripts/.
+    /// </summary>
+    public class Script : MonoBehaviour
     {
-        
-    }
+        private void Start()
+        {
+        }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
+        private void Update()
+        {
+        }
     }
 }
+

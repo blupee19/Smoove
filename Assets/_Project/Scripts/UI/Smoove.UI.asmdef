@@ -1,0 +1,17 @@
+{
+    "name": "Smoove.UI",
+    "rootNamespace": "Smoove.UI",
+    "references": [
+        "Smoove.Core",
+        "Smoove.Utilities"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
