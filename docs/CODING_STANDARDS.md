@@ -14,6 +14,7 @@ Every script must declare a namespace. The namespace must match the assembly and
 | `Scripts/Gameplay/` | `Smoove.Gameplay` |
 | `Scripts/Gameplay/Input/` | `Smoove.Gameplay.Input` |
 | `Scripts/Gameplay/Characters/` | `Smoove.Gameplay.Characters` |
+| `Scripts/Gameplay/Characters/Player/` | `Smoove.Gameplay.Characters.Player` |
 | `Scripts/Gameplay/Systems/` | `Smoove.Gameplay.Systems` |
 | `Scripts/UI/` | `Smoove.UI` |
 | `Scripts/Utilities/` | `Smoove.Utilities` |

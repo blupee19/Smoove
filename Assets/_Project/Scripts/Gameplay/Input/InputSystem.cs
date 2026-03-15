@@ -30,13 +30,13 @@ namespace Smoove.Gameplay.Input
         public float MoveInput { get; private set; }
 
         /// <summary>True while jump is held/triggered.</summary>
-        public bool JumpInput { get; set; }
+        public bool JumpInput { get; private set; }
 
         /// <summary>Current roll input value.</summary>
-        public float RollInput { get; set; }
+        public float RollInput { get; private set; }
 
         /// <summary>True when restart was triggered.</summary>
-        public bool RestartInput { get; set; }
+        public bool RestartInput { get; private set; }
 
         /// <summary>Singleton instance. Persists across scenes.</summary>
         public static InputSystem Instance { get; private set; }
@@ -88,11 +88,11 @@ namespace Smoove.Gameplay.Input
             _moveAction.performed += context => MoveInput = context.ReadValue<float>();
             _moveAction.canceled += context => MoveInput = 0;
 
-            _jumpAction.performed += context => JumpInput = true;
-            _jumpAction.canceled += context => JumpInput = false;
-
             _rollAction.performed += context => RollInput = context.ReadValue<float>();
             _rollAction.canceled += context => RollInput = 0;
+
+            _jumpAction.performed += context => JumpInput = true;
+            _jumpAction.canceled += context => JumpInput = false;
 
             _restartAction.performed += context => RestartInput = true;
             _restartAction.canceled += context => RestartInput = false;
