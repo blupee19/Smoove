@@ -26,7 +26,7 @@ namespace Smoove.Gameplay.Characters.Player
                 return;
             }
 
-            // doesn't work with the constant linear velocity movement, just to add a knockback effect when hitting an obstacle
+            // doesn't work with the constant linear velocity movement, just to add a knockback effect when hitting an obstacle (R)
             Vector2 knockbackDir = collision.GetContact(0).normal;
             _rigidbody.AddForce(knockbackDir * _knockbackForce, ForceMode2D.Impulse);
             StartCoroutine(KnockbackRoutine());
@@ -34,7 +34,7 @@ namespace Smoove.Gameplay.Characters.Player
 
         private IEnumerator KnockbackRoutine()
         {
-            // a timer to wait and kill the player and reload the scene, can add particle effects later
+            // a timer to wait and kill the player and reload the scene, can add particle effects later (R)
             yield return new WaitForSeconds(_waitToKill);
             Destroy(gameObject);
             SceneManager.LoadScene(SceneManager.GetActiveScene().name);

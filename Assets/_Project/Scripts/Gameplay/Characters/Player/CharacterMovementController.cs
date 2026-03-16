@@ -13,8 +13,10 @@ namespace Smoove.Gameplay.Characters.Player
         [SerializeField] private float _rollSpeed = 3f;
         [SerializeField] private float _jumpForce = 1f;
         [SerializeField] private float _groundCheckDistance = 0.2f;
+        [SerializeField] private float _powerUpJumpForce = 2f;
 
         [Header("Component References")]
+        private Smoove.Gameplay.Systems.PowerUpSystem _powerUp;
         private Rigidbody2D _rigidbody;
         [SerializeField] private LayerMask _groundLayer;
         [SerializeField] private Transform _groundCheck;
@@ -29,6 +31,8 @@ namespace Smoove.Gameplay.Characters.Player
         private void Awake()
         {
             _rigidbody = GetComponent<Rigidbody2D>();
+            _powerUp = GetComponent<Smoove.Gameplay.Systems.PowerUpSystem>();
+
         }
 
         private void FixedUpdate()
@@ -46,13 +50,13 @@ namespace Smoove.Gameplay.Characters.Player
                 return;
             }
 
-            // this function uses no momentum, it works as constant force 
+            // this function uses no momentum, it works as constant force (R)
             Vector2 vel = _rigidbody.linearVelocity;
             vel.x = _moveInput * _moveSpeed;
             _rigidbody.linearVelocity = vel;
 
-            // the lile below will use the momentum of the character, but it has a friction-y feel to it
-            //_rigidbody.AddForce(new Vector2(_moveInput * _moveSpeed, 0), ForceMode2D.Force); 
+            // the line below will use the momentum of the character, but it has a friction-y feel to it (R)
+            //_rigidbody.AddForce(new Vector2(_moveInput * _moveSpeed, 0), ForceMode2D.Force);
         }
 
         private void Roll()
@@ -61,7 +65,7 @@ namespace Smoove.Gameplay.Characters.Player
             {
                 return;
             }
-            // not included in the touch buttons but use q or e to roll
+            // not included in the touch buttons but use q or e to roll (R)
             _rigidbody.AddTorque(_rollInput * _rollSpeed);
         }
 
@@ -71,10 +75,20 @@ namespace Smoove.Gameplay.Characters.Player
             {
                 return;
             }
-            // i declared a variable to consume the jump button and then you can only use jump again when it's true
+            // i declared a variable to consume the jump button and then you can only use jump again when it's true (R)
             if (IsGrounded() && _jumpInput && !_jumpConsumed)
             {
-                _rigidbody.AddForce(new Vector2(0, _jumpForce), ForceMode2D.Impulse);
+                // this code is stacking up power ups right now, we can clamp it from 0 to 1 in the future (R)
+                // if the player collected a power up, it jumps higher by doin simple addition else it just jumps normally (R)
+                // can probably optimise this and make it modular later, this implementation is probably shit (R)
+                float jumpForce = _jumpForce;
+                if (_powerUp != null && _powerUp.PowerUpCount > 0)
+                {
+                    jumpForce += _powerUpJumpForce;
+                    _powerUp.ConsumeOne();
+                }
+
+                _rigidbody.AddForce(new Vector2(0, jumpForce), ForceMode2D.Impulse);
                 _jumpConsumed = true;
             }
         }
@@ -85,12 +99,13 @@ namespace Smoove.Gameplay.Characters.Player
             {
                 return false;
             }
-            // an empty gameobject is on the foot of the player checking if we're touching the ground
+            // an empty gameobject is on the foot of the player checking if we're touching the ground (R)
             return Physics2D.OverlapCircle(_groundCheck.position, _groundCheckDistance, _groundLayer);
         }
  
         private void GetInputs()
         {
+            // this line of code can be called at awake or start because it only needs to be assigned once (R)
             var input = Smoove.Gameplay.Input.InputSystem.Instance;
             if (input == null)
             {
@@ -102,7 +117,7 @@ namespace Smoove.Gameplay.Characters.Player
             _restartInput = input.RestartInput;
             _jumpInput = input.JumpInput;
 
-            // i think there can be a better way to do this but i'll leave it for now
+            // i think there can be a better way to do this but i'll leave it for now (R)
             if (!_jumpInput)
             {
                 _jumpConsumed = false;
