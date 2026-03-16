@@ -46,7 +46,13 @@ namespace Smoove.Gameplay.Characters.Player
                 return;
             }
 
-            _rigidbody.AddForce(new Vector2(_moveInput, 0) * _moveSpeed);
+            // this function uses no momentum, it works as constant force 
+            Vector2 vel = _rigidbody.linearVelocity;
+            vel.x = _moveInput * _moveSpeed;
+            _rigidbody.linearVelocity = vel;
+
+            // the lile below will use the momentum of the character, but it has a friction-y feel to it
+            //_rigidbody.AddForce(new Vector2(_moveInput * _moveSpeed, 0), ForceMode2D.Force); 
         }
 
         private void Roll()
@@ -55,7 +61,7 @@ namespace Smoove.Gameplay.Characters.Player
             {
                 return;
             }
-
+            // not included in the touch buttons but use q or e to roll
             _rigidbody.AddTorque(_rollInput * _rollSpeed);
         }
 
@@ -65,7 +71,7 @@ namespace Smoove.Gameplay.Characters.Player
             {
                 return;
             }
-
+            // i declared a variable to consume the jump button and then you can only use jump again when it's true
             if (IsGrounded() && _jumpInput && !_jumpConsumed)
             {
                 _rigidbody.AddForce(new Vector2(0, _jumpForce), ForceMode2D.Impulse);
@@ -79,7 +85,7 @@ namespace Smoove.Gameplay.Characters.Player
             {
                 return false;
             }
-
+            // an empty gameobject is on the foot of the player checking if we're touching the ground
             return Physics2D.OverlapCircle(_groundCheck.position, _groundCheckDistance, _groundLayer);
         }
  
@@ -96,6 +102,7 @@ namespace Smoove.Gameplay.Characters.Player
             _restartInput = input.RestartInput;
             _jumpInput = input.JumpInput;
 
+            // i think there can be a better way to do this but i'll leave it for now
             if (!_jumpInput)
             {
                 _jumpConsumed = false;
