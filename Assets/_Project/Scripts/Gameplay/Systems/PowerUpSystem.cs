@@ -24,7 +24,7 @@ namespace Smoove.Gameplay.Systems
                 return;
             }
 
-            // just incrementing an int when consuming a power up
+            // just incrementing an int when consuming a power up (R)
             Debug.Log("Player hit a power up");
             _powerUpCount++;
             Destroy(collision.gameObject);
