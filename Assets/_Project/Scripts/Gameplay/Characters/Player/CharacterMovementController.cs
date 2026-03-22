@@ -1,5 +1,4 @@
 using UnityEngine;
-using UnityEngine.InputSystem;
 
 namespace Smoove.Gameplay.Characters.Player
 {
@@ -102,7 +101,7 @@ namespace Smoove.Gameplay.Characters.Player
             // an empty gameobject is on the foot of the player checking if we're touching the ground (R)
             return Physics2D.OverlapCircle(_groundCheck.position, _groundCheckDistance, _groundLayer);
         }
- 
+
         private void GetInputs()
         {
             // this line of code can be called at awake or start because it only needs to be assigned once (R)
